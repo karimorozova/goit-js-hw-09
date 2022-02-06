@@ -7,25 +7,24 @@ const refs =  {
 let setIntervalId = null;
 
 refs.stopColorSwitcherBtn.disabled = 'true';
-// refs.stopColorSwitcherBtn.setAttribute('disabled', 'true');
+
 refs.stopColorSwitcherBtn.addEventListener('click', onStopColorSwitcherBtnClick);
 refs.startColorSwitcherBtn.addEventListener('click', onStartColorSwitcherBtnClick);
 
 
 function onStopColorSwitcherBtnClick() {
-    // console.log(refs.stopColorSwitcherBtn);
+    
     refs.startColorSwitcherBtn.removeAttribute('disabled');
     refs.stopColorSwitcherBtn.disabled = 'true';
     clearInterval(setIntervalId);
 };
 
 function onStartColorSwitcherBtnClick() {
-    // console.log(refs.startColorSwitcherBtn);
+   
     refs.startColorSwitcherBtn.disabled = 'true';
     refs.stopColorSwitcherBtn.removeAttribute('disabled');
 
     setIntervalId = setInterval(changeBodyBgColor, 1000);
-    // setTimeout(changeBodyBgColor, 1000)
 
 };
 
