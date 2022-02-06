@@ -2,17 +2,22 @@ import flatpickr from 'flatpickr';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
-const FUTURE_DAY_STORAGE_KEY = 'futureDay';
-
 const refs = {
     dateTimePicker: document.querySelector('#datetime-picker'),
     timerStartBtn: document.querySelector('[data-start]'),
-    timerValue: document.querySelector('.value'),
-    timerLabel: document.querySelector('.label'),
+    timerDaysValue: document.querySelector('[data-days]'),
+    timerHoursValue: document.querySelector('[data-hours]'),
+    timerMinutesValue: document.querySelector('[data-minutes]'),
+    timerSecondsValue: document.querySelector('[data-seconds]'),
     
 };
 
+
 refs.timerStartBtn.disabled = 'true';
+
+
+
+
 
 const options = {
     enableTime: true,
@@ -20,30 +25,64 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
+    console.log(selectedDates, 22);
+      console.log(selectedDates[0], 22);
 
-      console.log(selectedDates[0].getTime());
-      if(selectedDates[0].getTime() > options.defaultDate) {
-        refs.timerStartBtn.removeAttribute('disabled');
-          
-          const difference = selectedDates[0].getTime() - options.defaultDate;
-          console.log(difference);
-          return;
+      if(selectedDates[0] <= options.defaultDate) {
+        alert('Please choose a date in the future');
+        return;
       }
-      alert('Please choose a date in the future')
-     
-    },
-  };
+      
+        refs.timerStartBtn.removeAttribute('disabled');
+        // const difference = selectedDates[0] - Date.now();
+        //     const time = convertMs(difference);
+        //     updateTimerInterface(time);
+        let intervalId = null;
+       
+        refs.timerStartBtn.addEventListener('click', () => {
+            console.log(9);
+            intervalId = setInterval(() => {
+             const difference = selectedDates[0] - Date.now();
+            
+            console.log(difference <= 0)
+            if(difference <= 0) {
+                updateTimerInterface();
+                console.log(8)
+                clearInterval(intervalId);
+                
+                return;
+            }
+            const time = convertMs(difference);
+            updateTimerInterface(time);
+            // clearInterval(intervalId);
+        //     console.log(difference);
+        //     console.log(selectedDates[0]);
+        // console.log(Date.now());
 
-//   options.onClose(['15', '78']);
+        // if(difference <= 0) {
+        //     updateTimerInterface();
+        //     clearInterval(intervalId);
+            
+        //     return;
+        // }
+            
+          }, 1000)
+          
+        });
+       
+  },
+}
 
-// console.log(options.defaultDate);
+// refs.timerStartBtn.addEventListener('click', options.onClick.bind(options));
+// console.log(options);
 
 
 
-// const select = options.onClose.bind(options);
-// console.log(select());
 
 flatpickr("#datetime-picker", options);
+// console.log(flatpickr)
+
+
 
 
   function convertMs(ms) {
@@ -65,6 +104,10 @@ flatpickr("#datetime-picker", options);
     return { days, hours, minutes, seconds };
   }
   
-//   console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-//   console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-//   console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+function updateTimerInterface({ days = 0, hours = 0, minutes = 0, seconds = 0 }) {
+    refs.timerDaysValue.textContent = days;
+    refs.timerHoursValue.textContent = hours;
+    refs.timerMinutesValue.textContent = minutes;
+    refs.timerSecondsValue.textContent = seconds;
+};
+
