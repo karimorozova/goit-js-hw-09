@@ -1,9 +1,10 @@
 const refs =  {
     startColorSwitcherBtn: document.querySelector('[data-start]'),
     stopColorSwitcherBtn: document.querySelector('[data-stop]'),
+    body: document.querySelector('body')
 };
 
-let setTimeoutId = null;
+let setIntervalId = null;
 
 refs.stopColorSwitcherBtn.disabled = 'true';
 // refs.stopColorSwitcherBtn.setAttribute('disabled', 'true');
@@ -15,7 +16,7 @@ function onStopColorSwitcherBtnClick() {
     // console.log(refs.stopColorSwitcherBtn);
     refs.startColorSwitcherBtn.removeAttribute('disabled');
     refs.stopColorSwitcherBtn.disabled = 'true';
-    // clearTimeout(setTimeoutId)
+    clearInterval(setIntervalId);
 };
 
 function onStartColorSwitcherBtnClick() {
@@ -23,9 +24,14 @@ function onStartColorSwitcherBtnClick() {
     refs.startColorSwitcherBtn.disabled = 'true';
     refs.stopColorSwitcherBtn.removeAttribute('disabled');
 
-    // setTimeoutId = setTimeout(() => {}, 1000);
+    setIntervalId = setInterval(changeBodyBgColor, 1000);
+    // setTimeout(changeBodyBgColor, 1000)
 
 };
+
+function changeBodyBgColor() {
+refs.body.style.backgroundColor = getRandomHexColor();
+}
 
 function getRandomHexColor() {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
