@@ -16,3 +16,22 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 900px;
+  background-color:  violet;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.field {
+  font-size: 30px;
+}
+
+.field:not(:last-child) {
+  margin-right: 20px;
+}
+
